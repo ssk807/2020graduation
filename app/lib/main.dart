@@ -1,3 +1,4 @@
+import 'package:app/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -18,7 +19,6 @@ final TextEditingController tcityController = TextEditingController();
 final TextEditingController tstreetController = TextEditingController();
 final TextEditingController tzipcodeController = TextEditingController();
 
-User _user;
 final String url = 'https://10.0.2.2:8080/';
 
 String targeturl;
@@ -48,6 +48,23 @@ Future<User> createUser(String name, String userId, String passwd, String city,
   }
 }
 //define input textarea
+
+Future<LoginUser> loginUser(String userId, String passwd) async {
+  final msg = jsonEncode({'userId': userId, 'passwd': passwd});
+
+  final response = await http.post(
+    targeturl,
+    headers: {'Content-Type': 'application/json'},
+    body: msg,
+  );
+
+  if (response.statusCode == 201) {
+    final String responseString = response.body;
+    return loginuserFromJson(responseString);
+  } else {
+    return null;
+  }
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -146,9 +163,7 @@ class LoginForm extends StatelessWidget {
 
                                   targeturl = url + 'login/';
 
-                                  final User user = await createUser(
-                                      '', userId, passwd, '', '', '');
-                                  _user = user;
+                                  await loginUser(userId, passwd);
                                 },
                                 child: Center(
                                     child: Text('LOGIN',
@@ -156,13 +171,7 @@ class LoginForm extends StatelessWidget {
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         )))),
-                          )),
-                      Container(
-                          child: Column(children: <Widget>[
-                        _user == null
-                            ? Container()
-                            : Text('user ${_user.userId} is login')
-                      ]))
+                          ))
                     ],
                   ))
             ]));
@@ -278,9 +287,8 @@ class RegisterForm extends StatelessWidget {
 
                         targeturl = url + 'account/create/';
 
-                        final User user = await createUser(
+                        await createUser(
                             name, userId, passwd, city, street, zipcode);
-                        _user = user;
                       },
                       child: Center(
                           child: Text('register',
