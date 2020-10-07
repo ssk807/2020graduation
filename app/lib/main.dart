@@ -20,7 +20,7 @@ final TextEditingController tstreetController = TextEditingController();
 final TextEditingController tzipcodeController = TextEditingController();
 //input text save
 
-final String url = 'https://10.0.2.2:8080/';
+final String url = 'http://10.0.2.2:8080/';
 //target server url
 String targeturl;
 
