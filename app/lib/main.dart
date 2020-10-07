@@ -10,7 +10,7 @@ import 'dart:convert';
 void main() {
   runApp(MyApp());
 }
-//run
+//run App
 
 final TextEditingController tnameController = TextEditingController();
 final TextEditingController tuserIdController = TextEditingController();
@@ -18,9 +18,10 @@ final TextEditingController tpasswdController = TextEditingController();
 final TextEditingController tcityController = TextEditingController();
 final TextEditingController tstreetController = TextEditingController();
 final TextEditingController tzipcodeController = TextEditingController();
+//input text save
 
 final String url = 'https://10.0.2.2:8080/';
-
+//target server url
 String targeturl;
 
 Future<User> createUser(String name, String userId, String passwd, String city,
@@ -47,7 +48,7 @@ Future<User> createUser(String name, String userId, String passwd, String city,
     return null;
   }
 }
-//define input textarea
+//user structure to send
 
 Future<LoginUser> loginUser(String userId, String passwd) async {
   final msg = jsonEncode({'userId': userId, 'passwd': passwd});
@@ -65,6 +66,7 @@ Future<LoginUser> loginUser(String userId, String passwd) async {
     return null;
   }
 }
+//login structure to send
 
 class MyApp extends StatelessWidget {
   @override
@@ -79,6 +81,40 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//start base to be revised later
+
+Widget bulidTextField(String labelText, TextEditingController controller) {
+  return TextFormField(
+    controller: controller,
+    decoration: InputDecoration(
+      labelText: labelText,
+      hintStyle: TextStyle(
+        color: Colors.grey,
+        fontSize: 16.0,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+    ),
+    obscureText: labelText == "PASSWORD" ? true : false,
+  );
+}
+//text box widget form
+
+Widget bulidregisterField(String labelText, TextEditingController controller) {
+  return TextField(
+    controller: controller,
+    decoration: InputDecoration(
+      labelText: labelText,
+      hintStyle: TextStyle(
+        color: Colors.grey,
+        fontSize: 5.0,
+      ),
+      border: OutlineInputBorder(),
+    ),
+    obscureText: labelText == "비밀번호" ? true : false,
+  );
+}
 
 class LoginForm extends StatelessWidget {
   @override
@@ -92,48 +128,32 @@ class LoginForm extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(30.0, 38.0, 0.0, 0.0),
-                      child: Text('Green',
+                      padding: EdgeInsets.fromLTRB(25.0, 40.0, 0.0, 0.0),
+                      child: Text('안녕하세요 \nGreenCafe입니다.',
                           style: TextStyle(
-                              fontSize: 50.0, fontWeight: FontWeight.bold)),
+                              fontSize: 25.0, fontWeight: FontWeight.bold)),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(25.0, 90.0, 0.0, 0.0),
-                      child: Text('Coffee',
+                      padding: EdgeInsets.fromLTRB(25.0, 120.0, 0.0, 0.0),
+                      child: Text('원활한 서비스 이용을 위해 로그인 해주세요.',
                           style: TextStyle(
-                              fontSize: 80.0, fontWeight: FontWeight.bold)),
+                              fontSize: 10.0, fontWeight: FontWeight.bold)),
                     )
                   ],
                 ),
               ),
               Container(
-                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+                  padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
                   child: Column(
                     children: <Widget>[
-                      TextField(
-                        controller: tuserIdController,
-                        decoration: InputDecoration(
-                            labelText: 'ID',
-                            labelStyle: TextStyle(
-                                fontFamily: 'Gothic',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromRGBO(13, 255, 22, 0)))),
+                      SizedBox(
+                        height: 40.0,
                       ),
-                      TextField(
-                        controller: tpasswdController,
-                        decoration: InputDecoration(
-                            labelText: 'PassWord',
-                            labelStyle: TextStyle(
-                                fontFamily: 'Gothic',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromRGBO(13, 255, 22, 0)))),
+                      bulidTextField("ID", tuserIdController),
+                      SizedBox(
+                        height: 10.0,
                       ),
+                      bulidTextField("PASSWORD", tpasswdController),
                       SizedBox(height: 5.0),
                       Container(
                           padding: EdgeInsets.only(top: 15, left: 140),
@@ -190,86 +210,35 @@ class RegisterForm extends StatelessWidget {
                 child: Stack(
               children: <Widget>[
                 Container(
-                    padding: EdgeInsets.only(top: 35.0),
+                    padding: EdgeInsets.only(top: 10.0),
                     child: Column(
                       children: <Widget>[
-                        TextField(
-                          controller: tnameController,
-                          decoration: InputDecoration(
-                              labelText: 'Name',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Gothic',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(13, 255, 22, 0)))),
+                        bulidregisterField("이름", tnameController),
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        TextField(
-                          controller: tuserIdController,
-                          decoration: InputDecoration(
-                              labelText: 'ID',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Gothic',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(13, 255, 22, 0)))),
+                        bulidregisterField("아이디", tuserIdController),
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        TextField(
-                          controller: tpasswdController,
-                          decoration: InputDecoration(
-                              labelText: 'PassWord',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Gothic',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(13, 255, 22, 0)))),
+                        bulidregisterField("비밀번호", tpasswdController),
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        TextField(
-                          controller: tcityController,
-                          decoration: InputDecoration(
-                              labelText: 'City',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Gothic',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(13, 255, 22, 0)))),
+                        bulidregisterField("도시", tcityController),
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        TextField(
-                          controller: tstreetController,
-                          decoration: InputDecoration(
-                              labelText: 'Street',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Gothic',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(13, 255, 22, 0)))),
+                        bulidregisterField("거리", tstreetController),
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        TextField(
-                          controller: tzipcodeController,
-                          decoration: InputDecoration(
-                              labelText: 'zipcode',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Gothic',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(13, 255, 22, 0)))),
-                        ),
+                        bulidregisterField("집주소", tzipcodeController),
                       ],
                     ))
               ],
             )),
-            SizedBox(height: 50),
+            SizedBox(height: 20),
             Container(
                 height: 50,
                 child: Material(
@@ -278,6 +247,7 @@ class RegisterForm extends StatelessWidget {
                   elevation: 7.0,
                   child: GestureDetector(
                       onTap: () async {
+                        //after we received the token should be changed area.
                         final String name = tnameController.text;
                         final String userId = tuserIdController.text;
                         final String passwd = tpasswdController.text;
@@ -285,10 +255,22 @@ class RegisterForm extends StatelessWidget {
                         final String street = tstreetController.text;
                         final String zipcode = tzipcodeController.text;
 
-                        targeturl = url + 'account/create/';
+                        if ((name == "") |
+                            (userId == "") |
+                            (passwd == "") |
+                            (city == "") |
+                            (street == "") |
+                            (zipcode == "")) {
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterSuccessForm()));
+                          targeturl = url + 'account/create/';
 
-                        await createUser(
-                            name, userId, passwd, city, street, zipcode);
+                          await createUser(
+                              name, userId, passwd, city, street, zipcode);
+                        }
                       },
                       child: Center(
                           child: Text('register',
@@ -302,5 +284,19 @@ class RegisterForm extends StatelessWidget {
   }
 }
 
-// to send /account/create
-// to send /login
+class RegisterSuccessForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(),
+        body: Column(
+          children: <Widget>[
+            Container(
+                child: Center(
+              child: Text('login success'),
+            ))
+          ],
+        ));
+  }
+}
